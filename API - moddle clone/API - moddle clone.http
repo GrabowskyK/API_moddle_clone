@@ -1,0 +1,6 @@
+@API___moddle_clone_HostAddress = http://localhost:5052
+
+GET {{API___moddle_clone_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
