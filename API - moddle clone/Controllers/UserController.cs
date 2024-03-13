@@ -1,6 +1,7 @@
 ﻿using API___moddle_clone.Database;
 using API___moddle_clone.Model;
 using API___moddle_clone.Services.UserServ;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API___moddle_clone.Controllers
@@ -18,7 +19,14 @@ namespace API___moddle_clone.Controllers
         {
             userService = _userService;
             logger = _logger;
-            
+
+        }
+
+        [HttpGet("AllUsers")]
+        public IActionResult GetAllUsers()
+        {
+            var model = userService.GetUsers();
+            return Ok(model);
         }
 
         [HttpPost("register")]
@@ -45,8 +53,37 @@ namespace API___moddle_clone.Controllers
             }
             else
             {
-                return Ok("User are unknown or password is incorrect!");
+                return BadRequest("User are unknown or password is incorrect!");
             }
+        }
+
+
+        //Poniżej można sprawdzić czy działa token
+        [HttpGet("CheckRoleUser"), Authorize(Roles = "User")]
+        public IActionResult CheckRoleUser()
+        {
+            if(!User.IsInRole("User"))
+                return BadRequest("Nie posiadasz uprawnien Usera!");
+            else
+                return Ok("Otrzymałeś dostęp przez Usera");
+        }
+
+        [HttpGet("CheckRoleAdmin"), Authorize(Roles = "Admin")]
+        public IActionResult CheckRoleAdmin()
+        {
+            if (!User.IsInRole("Admin"))
+                return BadRequest("Nie posiadasz uprawnien Admina!");
+            else
+                return Ok("Otrzymałeś dostęp przez Admina");
+        }
+
+        [HttpGet("CheckRoleBoth"), Authorize(Roles = "Admin,User")]
+        public IActionResult CheckBothRoles()
+        {
+            if (!User.IsInRole("User") || !User.IsInRole("Admin"))
+                return BadRequest("Nie posiadasz uprawnien Usera!");
+            else
+                return Ok("Otrzymałeś dostęp przez admina i usera");
         }
     }
 }

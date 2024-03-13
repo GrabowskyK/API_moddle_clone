@@ -19,10 +19,12 @@ namespace API___moddle_clone.Services.UserServ
             configuration = _configuration;
         }
 
+        public IEnumerable<User> GetUsers() => databaseContext.Users;
+
         public bool AddUser(User user)
         {
             string passwordHash = BCrypt.Net.BCrypt.HashPassword(user.PasswordHash);
-            User newUser = new User(user.Username, passwordHash);
+            User newUser = new User(user.Username, passwordHash, user.Role);
             if (databaseContext.Users.Any(u => u.Username == user.Username))
             {
                 return false;
@@ -49,7 +51,8 @@ namespace API___moddle_clone.Services.UserServ
         {
             List<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.Username)
+                new Claim(ClaimTypes.Name, user.Username),
+                new Claim(ClaimTypes.Role, user.Role.ToString())
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
