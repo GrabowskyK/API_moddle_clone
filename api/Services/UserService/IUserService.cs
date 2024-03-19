@@ -1,6 +1,6 @@
-﻿using API___moddle_clone.Model;
+﻿using ApiMoodleClone.Models;
 
-namespace API___moddle_clone.Services.UserServ
+namespace ApiMoodleClone.Services.UserService
 {
     public interface IUserService
     {

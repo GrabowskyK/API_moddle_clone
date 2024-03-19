@@ -1,4 +1,4 @@
-﻿namespace API___moddle_clone.Model
+﻿namespace ApiMoodleClone.Models
 {
     public class User
     {
@@ -20,6 +20,5 @@
             Teacher,
             User,
         }
-
     }
 }

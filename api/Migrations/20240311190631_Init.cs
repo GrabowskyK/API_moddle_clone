@@ -14,7 +14,8 @@ namespace APImoddleclone.Migrations
                 name: "tests",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id = table
+                        .Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     Year = table.Column<int>(type: "INTEGER", nullable: false)
@@ -22,14 +23,14 @@ namespace APImoddleclone.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_tests", x => x.Id);
-                });
+                }
+            );
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "tests");
+            migrationBuilder.DropTable(name: "tests");
         }
     }
 }
