@@ -1,3 +1,10 @@
-import { Api } from "./api-client";
+import { Api } from './api-client'
+import { authRequestMiddleware } from './middlewares/auth-request-middleware'
 
-export const api = new Api({ baseURL: process.env.NEXT_PUBLIC_API_BASE_URL });
+const api = new Api({
+  baseURL: import.meta.env.VITE_API_BASE_URL,
+})
+
+api.instance.interceptors.request.use(authRequestMiddleware)
+
+export { api }
